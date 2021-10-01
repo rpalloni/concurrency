@@ -1,4 +1,4 @@
-# I/O-bound processes
+# I/O-bound processes (user input)
 '''
 Every program has (at least) one thread, called the main thread executing the code.
 The more visible second thread exists as the InputReader class. In this example,
