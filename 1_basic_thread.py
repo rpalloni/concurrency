@@ -16,6 +16,7 @@ class InputReader(Thread):
     def run(self):
         self.line_of_text = input()
 
+
 if __name__ == "__main__":
     # (2) input
     print("Enter some text and press enter: ")

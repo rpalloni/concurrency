@@ -35,6 +35,7 @@ from threading import Thread
 import json
 import requests
 import time
+import os
 
 CITIES = {
     # city : where on earth id
@@ -43,11 +44,17 @@ CITIES = {
     "Rome": "721943",
     "Vienna": "551801",
     "Madrid": "766273",
-    "Moscow": "2122265",
     "Prague": "796597",
+    "Moscow": "2122265",
     "New York": "2459115",
     "Chicago": "2379574",
-    "Sydney": "1105779"
+    "Toronto": "4118",
+    "Sydney": "1105779",
+    "Brisbane": "1100661",
+    "Istanbul": "2344116",
+    "Warsaw": "523920",
+    "Melbourne": "1103816",
+    "Bangkok": "1225448"
 }
 
 # [city for city in CITIES]
@@ -63,39 +70,36 @@ class TemperatureGetter(Thread):
         response = requests.get(url_template)
         data = json.loads(response.content)
         self.temperature = round(data['consolidated_weather'][0]['the_temp'], 2)
+        print(f'It is {self.temperature}°C in {self.city} - Data provided by process {os.getpid()} with thread {self.name}')
 
 
-def run_multithreads(threads):
+def run_multithread(threads):
     ''' fetching city temperature simultaneously '''
 
-    start = time.time()
     for thread in threads:
-        print(f'Start {thread.city} thread')
+        print(f'Start {thread.city} thread {thread.name}')
         thread.start()
 
-    # back to __main__
     for thread in threads:
         thread.join()
-        print(f'it is {thread.temperature}°C in {thread.city}')
-
-    print(f'Got {len(threads)} temps in {time.time() - start} seconds')
 
 
 def run_singlethread(threads):
     ''' fetching city temperature consecutively '''
 
-    start = time.time()
     for thread in threads:
-        print(f'Start {thread.city} thread')
+        print(f'Start {thread.city} thread {thread.name}')
         thread.run()
-        print(f'it is {thread.temperature}°C in {thread.city}')
 
-    print(f'Got {len(threads)} temps in {time.time() - start} seconds')
 
 
 if __name__ == "__main__":
     # create n threads (one per city)
     threads = [TemperatureGetter(city) for city in CITIES]
 
-    run_multithreads(threads)
-    #run_singlethread(threads)
+    start = time.time()
+    #run_multithread(threads)
+    run_singlethread(threads)
+    end = time.time()
+
+    print(f'Got {len(threads)} temps in {end - start} seconds')
