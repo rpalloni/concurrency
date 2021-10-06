@@ -1,6 +1,6 @@
 # I/O-bound process (network latency)
 '''
-Create n parallel processes to get temperatures, one for each city.
+Create n parallel threads in n processes to get temperatures, one for each city.
 Two different approaches: simultaneous and consecutive
 
     __main__                 __main__                   __main__

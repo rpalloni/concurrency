@@ -9,10 +9,9 @@ from threading import Thread
 class CalculateSquare(Process):
     
     def run(self):
-        s=0
         for n in range(10000000):
-            s+=n*n
-        print(f'Process ID {os.getpid()} - {self.name} => Total: {s}')
+            n*n
+        print(f'Process ID {os.getpid()} - {self.name}')
 
 # CPU monitor
 # threading: threads running in different CPU but one at a time (all CPU usage is low % and shifting)
@@ -37,6 +36,6 @@ if __name__ == "__main__":
 GIL prevents any two threads from using CPU for their work at the exact same time:
 it means that threads are useless in Python for parallel processing.
 When Threads are used for heavy tasks they all go in one process
-- threading: 8 threads, 1 process, 1 CPU
+- threading: 8 threads, 1 process, 1 CPU (8 shared)
 - processing: 8 threads, 8 processes, 8 CPUs
 '''
