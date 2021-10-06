@@ -1,6 +1,6 @@
 # I/O-bound process (network latency)
 '''
-Create n parallel threads to get temperatures, one for each city.
+Create n parallel threads in one process to get temperatures, one for each city.
 Two different approaches: simultaneous and consecutive
 
     __main__
@@ -98,8 +98,8 @@ if __name__ == "__main__":
     threads = [TemperatureGetter(city) for city in CITIES]
 
     start = time.time()
-    #run_multithread(threads)
-    run_singlethread(threads)
+    run_multithread(threads)
+    #run_singlethread(threads)
     end = time.time()
 
     print(f'Got {len(threads)} temps in {end - start} seconds')

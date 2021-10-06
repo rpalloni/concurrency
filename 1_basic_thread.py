@@ -1,11 +1,6 @@
 # I/O-bound processes (user input)
-'''
-Every program has (at least) one thread, called the main thread executing the code.
-The more visible second thread exists as the InputReader class. In this example,
-these threads allows to (1) calculate squares while (2) getting input from keyboard
-'''
 
-from threading import Thread
+from threading import Thread, current_thread
 
 class InputReader(Thread):
     '''
@@ -15,9 +10,12 @@ class InputReader(Thread):
 
     def run(self):
         self.line_of_text = input()
+        print(current_thread().name)
 
 
 if __name__ == "__main__":
+    print(current_thread().name)
+
     # (2) input
     print("Enter some text and press enter: ")
     thread = InputReader()
@@ -28,11 +26,14 @@ if __name__ == "__main__":
     while thread.is_alive():
         result = number * number
         number += 1
+    
 
     print(f"calculated squares up to {number} * {number} = {result}")
     print(f"while you typed '{thread.line_of_text}'")
+    
 
 '''
+These threads allows to (1) calculate squares while (2) getting input from keyboard.
 Thread (2) doesn't start running until we call the start() method on the object.
 It starts and immediately pauses to wait for input from the keyboard.
 In the meantime, the original thread continues executing from the point start() was called.
