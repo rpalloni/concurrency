@@ -1,9 +1,9 @@
 # I/O-bound process (network latency)
 '''
 Create n parallel threads in n processes to get temperatures, one for each city.
-Two different approaches: simultaneous and consecutive
 
-    __main__                 __main__                   __main__
+
+        _______________________main__________________________
         |                        |                          |
     t1  |--->---| start()    t2  |--->---| start()      t3  |--->---| start()
     t1  |---<---| join()     t2  |---<---| join()       t3  |---<---| join()
@@ -11,21 +11,19 @@ Two different approaches: simultaneous and consecutive
        \|/                      \|/                        \|/
 
 
-    __main__                 __main__                   __main__
+        _______________________main__________________________
         |                        |                          |
     t1  |--->---| run()      t2  |--->---| run()        t3  |--->---| run()
     t1  |---<---|            t2  |---<---|              t3  |---<---| 
         |                        |                          |
        \|/                      \|/                        \|/
 
-
 '''
 
-from multiprocessing import Process
+from multiprocessing import Process, current_process
 import json
 import requests
 import time
-import os
 
 CITIES = {
     # city : where on earth id
@@ -60,31 +58,31 @@ class TemperatureGetter(Process):
         response = requests.get(url_template)
         data = json.loads(response.content)
         self.temperature = round(data['consolidated_weather'][0]['the_temp'], 2)
-        print(f'It is {self.temperature}°C in {self.city} - Data provided by process {os.getpid()} with thread {self.name}')
+        print(f'It is {self.temperature}°C in {self.city}')
 
 
 def run_multiprocess(processes):
-    ''' fetching city temperature simultaneously '''
  
     for process in processes:
-        print(f'Start {process.city} thread {process.name}')
         process.start()
+        print(f'Start {process.city}: {process.name}, pid={process.pid} - parent_name={process._parent_name}, parent_pid={process._parent_pid}')
 
     for process in processes:
         process.join()
 
 
 def run_singleprocess(processes):
-    ''' fetching city temperature consecutively '''
 
     for process in processes:
-        print(f'Start {process.city} thread {process.name}')
+        print(f'Start {process.city}: {process.name}, pid={process.pid} - parent_name={process._parent_name}, parent_pid={process._parent_pid}')
         process.run()
 
 
 
 if __name__ == "__main__":
-    # create n threads (one per city)
+    print(f'{current_process().name} - PID={current_process().ident}') # same as os.getpid()
+
+    # create n processes (one per city)
     processes = [TemperatureGetter(city) for city in CITIES]
 
     start = time.time()
@@ -93,6 +91,7 @@ if __name__ == "__main__":
     end = time.time()
 
     print(f'Got {len(processes)} temps in {end - start} seconds')
+    # Note: order of execution depends on OS scheduling
 
 
 '''

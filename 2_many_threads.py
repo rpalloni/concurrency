@@ -1,7 +1,6 @@
 # I/O-bound process (network latency)
 '''
 Create n parallel threads in one process to get temperatures, one for each city.
-Two different approaches: simultaneous and consecutive
 
     __main__
         |
@@ -31,11 +30,10 @@ Two different approaches: simultaneous and consecutive
 
 '''
 
-from threading import Thread
+from threading import Thread, current_thread, main_thread
 import json
 import requests
 import time
-import os
 
 CITIES = {
     # city : where on earth id
@@ -70,30 +68,30 @@ class TemperatureGetter(Thread):
         response = requests.get(url_template)
         data = json.loads(response.content)
         self.temperature = round(data['consolidated_weather'][0]['the_temp'], 2)
-        print(f'It is {self.temperature}°C in {self.city} - Data provided by process {os.getpid()} with thread {self.name}')
+        print(f'It is {self.temperature}°C in {self.city}')
 
 
 def run_multithread(threads):
-    ''' fetching city temperature simultaneously '''
 
     for thread in threads:
-        print(f'Start {thread.city} thread {thread.name}')
         thread.start()
-
+        print(f'Start {thread.city}: {thread.name}, TID={thread.native_id}, PID={main_thread().native_id}')
+        
     for thread in threads:
         thread.join()
 
 
 def run_singlethread(threads):
-    ''' fetching city temperature consecutively '''
 
     for thread in threads:
-        print(f'Start {thread.city} thread {thread.name}')
+        print(f'Start {thread.city}: {thread.name}, TID={thread.native_id}, PID={main_thread().native_id}')
         thread.run()
-
+        
 
 
 if __name__ == "__main__":
+    print(f'{current_thread().name} - PID={current_thread().native_id}') # same as os.getpid()
+
     # create n threads (one per city)
     threads = [TemperatureGetter(city) for city in CITIES]
 
@@ -103,3 +101,4 @@ if __name__ == "__main__":
     end = time.time()
 
     print(f'Got {len(threads)} temps in {end - start} seconds')
+    # Note: order of execution depends on OS scheduling

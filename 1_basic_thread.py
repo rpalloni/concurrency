@@ -1,6 +1,6 @@
 # I/O-bound processes (user input)
 
-from threading import Thread, current_thread
+from threading import Thread, current_thread, main_thread
 
 class InputReader(Thread):
     '''
@@ -10,11 +10,11 @@ class InputReader(Thread):
 
     def run(self):
         self.line_of_text = input()
-        print(current_thread().name)
+        print(f'{thread.name}, TID={thread.native_id}, PID={main_thread().native_id}')
 
 
 if __name__ == "__main__":
-    print(current_thread().name)
+    print(f'{current_thread().name} - PID={current_thread().native_id}') # same as os.getpid()
 
     # (2) input
     print("Enter some text and press enter: ")
@@ -27,9 +27,7 @@ if __name__ == "__main__":
         result = number * number
         number += 1
     
-
-    print(f"calculated squares up to {number} * {number} = {result}")
-    print(f"while you typed '{thread.line_of_text}'")
+    print(f"calculated squares up to {number} * {number} = {result} while you typed '{thread.line_of_text}'")
     
 
 '''
