@@ -1,7 +1,8 @@
-# CPU-bound process
-
+# CPU-bound process (computationally expensive task)
 '''
-Pool handles the creation of separate processes and the allocation of tasks among them
+Pool is an easier approach to Process management as it handles
+the creation of processes, the allocation of tasks among them and
+the collection of each stream result in a final output
 
     input task
        task 1
@@ -11,7 +12,7 @@ Pool handles the creation of separate processes and the allocation of tasks amon
     /    |    \
   t1    t2    t3   # run()
     \    |    /
-reduce tasks outputs
+  reduce outputs
 
 '''
 
@@ -19,22 +20,23 @@ import os
 import time
 from multiprocessing import Pool
 
+x=10000000
 
 class CalculateSquare:
     ''' no longer a Process but a task to use in the map '''
     
     def run(self):
-        print(f'Process ID {os.getpid()} running...')
-        s = 0
-        for n in range(100000000):
+        s=0
+        for n in range(x):
             s+=n*n
         return s
         
 
-
 if __name__ == "__main__":
-    tasks = [CalculateSquare() for cpu in range(os.cpu_count())] # one task for each CPU core
-    pool = Pool(os.cpu_count()) # pool creates a separate process for each of the CPU cores
+
+    # create one task for each CPU core
+    tasks = [CalculateSquare() for cpu in range(os.cpu_count())] 
+    pool = Pool(os.cpu_count()) # pool creates a separate process for each CPU core
 
     start = time.time()
     # pool get each task in the iterable and push it into an available process which executes the function
