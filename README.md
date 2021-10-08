@@ -11,7 +11,7 @@ Terminology for code reading
 * time.sleep() artificial delay for switching between threads
 
 ~~~
-## Multithreding in a nutshell:
+## Multithreading in a nutshell:
 
  1 Process => 1 Interpreter => 1 GIL 
 
@@ -50,6 +50,8 @@ Each process has its own interpreter, memory share and lock.
 Despite the execution is faster, processes setup (instance generation) is slower.
 
 ~~~
+
 _The rigth tool for the job:_ \
 threads are useless in Python for parallel processing (CPU bound) but optimal for I/O bound cases. \
-Depending on what kind of concurrency is needed (tending toward I/O versus tending toward CPU)
+Depending on what kind of concurrency is needed (tending toward I/O versus tending toward CPU) \
+multithreading or multiprocessing should be adopted.
