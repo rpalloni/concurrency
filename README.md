@@ -5,7 +5,7 @@ Terminology for code reading
 * CPU: piece of hardware executing code
 * OS: handles the scheduling of CPU among processes
 * Process: program executed
-* Thread: part of a process
+* Thread: part of a process; a separate flow of execution
 * I/O bound: network, database, user inputs ops
 * CPU bound: task, jobs, calculation
 * time.sleep() artificial delay for switching between threads
@@ -26,7 +26,8 @@ Terminology for code reading
 | |_________|              | |              | |                |
 |______________________________________________________________|
 
-I/O: something outside the interpreter domain; when is happening, the interpreter can switch and execute another thread. \
+I/O: something outside the interpreter domain;  while waiting for these external events, \ 
+the interpreter can switch and execute another thread. \
 lock: when the interpreter switch to a thread, GIL locks the interpreter and memory for that thread.
 Despite the execution is slower, threads setup is faster ("light" processes)
 
