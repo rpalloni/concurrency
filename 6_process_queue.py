@@ -21,10 +21,12 @@ process 2 --> item 3 -->   |
 import os
 import time
 from multiprocessing import  Process, Queue
+from threading import Thread
 
 
 x=5 # use a small number since each process adds x items to the (unique) queue
 
+# class CalculateSquare(Thread):
 class CalculateSquare(Process):
     
     def __init__(self, queue):

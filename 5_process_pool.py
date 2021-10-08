@@ -19,6 +19,7 @@ the collection of each stream result in a final output
 import os
 import time
 from multiprocessing import Pool
+from multiprocessing.pool import ThreadPool
 
 x=10000000
 
@@ -36,7 +37,7 @@ if __name__ == "__main__":
 
     # create one task for each CPU core
     tasks = [CalculateSquare() for cpu in range(os.cpu_count())] 
-    pool = Pool(os.cpu_count()) # pool creates a separate process for each CPU core
+    pool = Pool(os.cpu_count()) # pool creates a separate process for each CPU core [thread: ThreadPool(os.cpu_count())]
 
     start = time.time()
     # pool get each task in the iterable and push it into an available process which executes the function
