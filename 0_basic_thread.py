@@ -34,7 +34,7 @@ def task(name):
 
 if __name__ == '__main__':
     print(f'{current_thread().name} started')
-    t = Thread(target=task, args=['cooking'], daemon=False)
+    t = Thread(target=task, args=['cooking'], daemon=False) # daemon thread will shut down immediately when the program exits
     t.start()
     # t.join() => tell __main__ to wait exiting until the (daemon) thread is finished (avoiding killing the thread)
     print(f'{current_thread().name} ended')
