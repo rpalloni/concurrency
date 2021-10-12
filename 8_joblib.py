@@ -9,7 +9,7 @@ import time
 from joblib import Parallel, delayed, Memory # store ops on disk (not RAM!)
 
 cachedir = './cache'
-mem = Memory(cachedir)
+mem = Memory(cachedir, verbose=1)
 
 x=10000000
 
