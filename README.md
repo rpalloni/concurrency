@@ -57,3 +57,17 @@ _The rigth tool for the job:_ \
 threads are useless in Python for parallel processing (CPU bound) but optimal for I/O bound cases. \
 Depending on what kind of concurrency is needed (tending toward I/O versus tending toward CPU) \
 multithreading or multiprocessing should be adopted.
+
+~~~
+if io_bound:
+    if io_very_slow:
+        print("Use Asyncio")
+    else:
+       print("Use Threads")
+else:
+    print("Multi Processing")
+~~~
+
+* CPU Bound => Multi Processing
+* I/O Bound, Fast I/O, Limited Number of Connections => Multi Threading
+* I/O Bound, Slow I/O, Many connections => AsyncIO
