@@ -27,8 +27,8 @@ Terminology for code reading
 | |_________|              | |              | |                |
 |______________________________________________________________|
 
-I/O: something outside the interpreter domain;  while waiting for these external events, \ 
-the interpreter can switch and execute another thread. \
+I/O: something outside the interpreter domain;  while waiting for these external events,
+the interpreter can switch and execute another thread.
 lock: when the interpreter switch to a thread, GIL locks the interpreter and memory for that thread.
 Despite the execution is slower, threads setup is faster ("light" processes)
 
@@ -50,13 +50,30 @@ n Processes => n Interpreters => n GILs
 
 Each process has its own interpreter, memory share and lock. 
 Despite the execution is faster, processes setup (instance generation) is slower.
-
 ~~~
+
 
 _The rigth tool for the job:_ \
 threads are useless in Python for parallel processing (CPU bound) but optimal for I/O bound cases. \
 Depending on what kind of concurrency is needed (tending toward I/O versus tending toward CPU) \
-multithreading or multiprocessing should be adopted.
+multithreading or multiprocessing should be adopted. 
+
+In multithreading (multitasking), the way the threads take turn of execution (_appearing_ to run at the same time) \
+allows differentiating further in pre-emptive multitasking and cooperative multitasking. \
+* Pre-emptive: OS knows and anticipate each thread interrupting/starting different threads at any time.
+* Cooperative: Threads must cooperate by announcing when they are ready to be switched out.
+
+
+      Concurrency Type       |   Number of CPU   |              Switching Decision                  |       Libs
+_____________________________|___________________|__________________________________________________|___________________
+                             |                   |                                                  |
+    Pre-emptive multitasking |         1         |  OS decides when to switch tasks                 |  threading
+    Cooperative multitasking |         1         |  Tasks decide when to give up control            |  asyncio
+    Multiprocessing          |         N         |  N processes running at the same time on N CPUs  |  multiprocessing
+
+
+
+In short:
 
 ~~~
 if io_bound:
@@ -65,9 +82,9 @@ if io_bound:
     else:
        print("Use Threads")
 else:
-    print("Multi Processing")
+    print("Use Multi Processing")
 ~~~
 
-* CPU Bound => Multi Processing
-* I/O Bound, Fast I/O, Limited Number of Connections => Multi Threading
-* I/O Bound, Slow I/O, Many connections => AsyncIO
+* CPU Bound => multiprocessing
+* I/O Bound, Slow I/O, Many connections => asyncio
+* I/O Bound, Fast I/O, Limited Number of Connections => threading
