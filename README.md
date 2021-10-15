@@ -59,18 +59,18 @@ Depending on what kind of concurrency is needed (tending toward I/O versus tendi
 multithreading or multiprocessing should be adopted. 
 
 In multithreading (multitasking), the way the threads take turn of execution (_appearing_ to run at the same time) \
-allows differentiating further in pre-emptive multitasking and cooperative multitasking. \
+allows differentiating further in pre-emptive multitasking and cooperative multitasking.
 * Pre-emptive: OS knows and anticipate each thread interrupting/starting different threads at any time.
 * Cooperative: Threads must cooperate by announcing when they are ready to be switched out.
 
-
+~~~
       Concurrency Type       |   Number of CPU   |              Switching Decision                  |       Libs
 _____________________________|___________________|__________________________________________________|___________________
                              |                   |                                                  |
     Pre-emptive multitasking |         1         |  OS decides when to switch tasks                 |  threading
     Cooperative multitasking |         1         |  Tasks decide when to give up control            |  asyncio
     Multiprocessing          |         N         |  N processes running at the same time on N CPUs  |  multiprocessing
-
+~~~
 
 
 In short:
