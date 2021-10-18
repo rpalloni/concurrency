@@ -5,7 +5,7 @@ import aiohttp
 
 async def download_site(session, url):
     async with session.get(url) as response:
-        print("Read {0} from {1}".format(response.content_length, url))
+        print(f"Read {response.content_length} from {url}")
 
 
 async def download_all_sites(sites):
@@ -18,10 +18,14 @@ async def download_all_sites(sites):
 
 
 sites = [
-    "https://www.jython.org",
-    "http://olympus.realpython.org/dice",
-] * 80
+        "https://jsonplaceholder.typicode.com/users",
+        "https://jsonplaceholder.typicode.com/posts",
+        "https://jsonplaceholder.typicode.com/comments",
+        "https://jsonplaceholder.typicode.com/albums",
+        "https://jsonplaceholder.typicode.com/photos",
+        "https://jsonplaceholder.typicode.com/todos"
+    ]
 start_time = time.time()
-asyncio.get_event_loop().run_until_complete(download_all_sites(sites))
+asyncio.get_event_loop().run_until_complete(download_all_sites(sites)) # asyncio.run()
 duration = time.time() - start_time
 print(f"Downloaded {len(sites)} sites in {duration} seconds")
