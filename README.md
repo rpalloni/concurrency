@@ -2,6 +2,7 @@
 
 Terminology for code reading
 
+* concurrency: simultaneous occurrence
 * CPU: piece of hardware executing code
 * OS: handles the scheduling of CPU among processes
 * Process: program executed
