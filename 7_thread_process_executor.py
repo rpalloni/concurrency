@@ -1,8 +1,12 @@
 '''
-ThreadPoolExecutor/ProcessPoolExecutor is an easier way to start up and use n threads.
-Instead of creating single Thread instances and handle start() and join(), an executor takes care of the threadpool.
-It's really just a wrapper around process/thread pools, but it provides a cleaner approach
-and ensure threads reuse as creating threads is expensive.
+Thread/Process + Pool + Executor is an easier way to start up and use n threads.
+Instead of creating single Thread instances and handle them using start() and join(), 
+TPE is a cleaner approach being just a wrapper around process/thread pools as it:
+- creates a pool of threads
+- controls how and when each of the threads in the pool will run
+- use thread-safe data structures (Queue) and logic (Lock) to ensure thread-safe*
+
+*only one thread can access a block of code or a bit of memory at the same time
 '''
 
 import os

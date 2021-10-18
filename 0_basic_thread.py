@@ -1,5 +1,3 @@
-# artificial idle time
-
 '''
 Every program has (at least) one thread, called MainThread executing the code.
 Additional threads can be created and lunched to perform multiple tasks concurrently
@@ -34,8 +32,34 @@ def task(name):
 
 if __name__ == '__main__':
     print(f'{current_thread().name} started')
-    t = Thread(target=task, args=['cooking'], daemon=False) # daemon thread will shut down immediately when the program exits
+    t = Thread(target=task, args=['cooking'], daemon=False) # daemon=True: thread will shut down immediately when the program exits
     t.start()
-    # t.join() => tell __main__ to wait exiting until the (daemon) thread is finished (avoiding killing the thread)
+    # t.join() # synchronize threads execution: tell __main__ to wait exiting until the thread is finished
     print(f'{current_thread().name} ended')
 
+
+'''
+
+deamon=True, no join():
+MainThread started
+task cooking started
+MainThread ended
+
+
+deamon=False, no join(): 
+MainThread started
+task cooking started
+MainThread ended
+task cooking ended
+
+
+deamon=True/False, join():
+MainThread started
+task cooking started
+task cooking ended
+MainThread ended
+
+join() is used to synchronize the executed threads, 
+in case computation requires that all processes have finished 
+
+'''
