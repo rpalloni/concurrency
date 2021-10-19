@@ -14,10 +14,10 @@ async def download_all_sites(sites):
         for url in sites:
             task = asyncio.ensure_future(download_site(session, url))
             tasks.append(task)
-        await asyncio.gather(*tasks, return_exceptions=True)
+        await asyncio.gather(*tasks)
 
-
-sites = [
+if __name__ == "__main__":
+    sites = [
         "https://jsonplaceholder.typicode.com/users",
         "https://jsonplaceholder.typicode.com/posts",
         "https://jsonplaceholder.typicode.com/comments",
@@ -25,7 +25,7 @@ sites = [
         "https://jsonplaceholder.typicode.com/photos",
         "https://jsonplaceholder.typicode.com/todos"
     ]
-start_time = time.time()
-asyncio.get_event_loop().run_until_complete(download_all_sites(sites)) # asyncio.run()
-duration = time.time() - start_time
-print(f"Downloaded {len(sites)} sites in {duration} seconds")
+    start_time = time.time()
+    asyncio.get_event_loop().run_until_complete(download_all_sites(sites)) # asyncio.run()
+    duration = time.time() - start_time
+    print(f"Downloaded {len(sites)} sites in {duration} seconds")

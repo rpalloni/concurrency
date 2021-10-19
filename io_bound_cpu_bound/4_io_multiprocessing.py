@@ -20,12 +20,16 @@ def download_all_sites(sites):
     with multiprocessing.Pool(initializer=set_global_session) as pool:
         pool.map(download_site, sites)
 
-
-sites = [
-    "https://www.jython.org",
-    "http://olympus.realpython.org/dice",
-] * 80
-start_time = time.time()
-download_all_sites(sites)
-duration = time.time() - start_time
-print(f"Downloaded {len(sites)} sites in {duration} seconds")
+if __name__ == "__main__":
+    sites = [
+        "https://jsonplaceholder.typicode.com/users",
+        "https://jsonplaceholder.typicode.com/posts",
+        "https://jsonplaceholder.typicode.com/comments",
+        "https://jsonplaceholder.typicode.com/albums",
+        "https://jsonplaceholder.typicode.com/photos",
+        "https://jsonplaceholder.typicode.com/todos"
+    ]
+    start_time = time.time()
+    download_all_sites(sites)
+    duration = time.time() - start_time
+    print(f"Downloaded {len(sites)} sites in {duration} seconds")

@@ -89,3 +89,12 @@ else:
 * CPU Bound => multiprocessing
 * I/O Bound, Slow I/O, Many connections => asyncio
 * I/O Bound, Fast I/O, Limited Number of Connections => threading
+
+
+# asyncio
+
+Specifically designed for server side network applications (spending a lot of time waiting for data to come in from the network). \
+It handles each client as a separate thread and uses coroutines to lightweight the threads burden (in terms of memory and resources).
+
+* coroutine: a function that can suspend its execution before reaching return, and can indirectly pass control to another coroutine for some time (use _async_ and _await_ syntax to return control to the event loop)
+* event loop: takes care of checking whether calls have completed and performing any subsequent tasks
