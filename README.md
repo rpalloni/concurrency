@@ -98,3 +98,6 @@ It handles each client as a separate thread and uses coroutines to lightweight t
 
 * coroutine: a function that can suspend its execution before reaching return, and can indirectly pass control to another coroutine for some time (use _async_ and _await_ syntax to return control to the event loop)
 * event loop: takes care of checking whether calls have completed and performing any subsequent tasks
+
+![image](https://user-images.githubusercontent.com/17080117/137976747-718880eb-18a7-4f57-aed4-783bc592bf64.png)
+
